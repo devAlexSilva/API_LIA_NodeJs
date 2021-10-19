@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -43,7 +44,7 @@ app.get("/", (req, res) => {
 })
 
 //rota para criar usuarios @method POST 
-app.post("/user", async (req, res) => {
+app.post("/user/add", async (req, res) => {
     try {
         await User.create(req.body)
 
@@ -80,9 +81,9 @@ app.get("/user/:id", async (req, res) => {
     try {
         const data = await User.findById(req.params.id);
 
-/* as vezes retorna null quando não encontra usuario 
- * então vou tratar esse dado de forma individual nesses casos*/
-data ?? res.status(422).json({message: "Nenhum usuario encontrado"}); 
+        /* as vezes retorna null quando não encontra usuario 
+         * então vou tratar esse dado de forma individual nesses casos*/
+        data ?? res.status(422).json({ message: "Nenhum usuario encontrado" });
 
 
         return res.status(200).json(data);
@@ -100,3 +101,51 @@ data ?? res.status(422).json({message: "Nenhum usuario encontrado"});
 
 /*rota para editar (estudar melhor as diferenças do method put e patch)
 * nesse caso, usando o patch porque é uma atualização parcial */
+app.post("/user/:id/edit", async (req, res) => {
+    const { name, observation } = req.body;
+    const id = req.params.id;
+    const data = {
+        name,
+        observation,
+    }
+
+
+    try {
+        await User.updateOne({ _id: id }, {
+            $set: {
+                name: name,
+                observation: observation,
+            },
+            $currentDate: {
+                lastModfied: true,
+            },
+        });
+
+        return res.status(200).json({ message: "atualizado com sucesso" })
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "falha ao atualizar",
+            fail: err
+        })
+    }
+});
+
+
+//rota para excluir um usuario
+app.post("/user/:id/delete", async (req, res) => {
+    const id = req.params.id;
+    
+    try {
+        await User.deleteOne({ _id: id })
+        return res.status(200).json({ message: "Deletado com sucesso" })
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "falha ao deletar",
+            fail: err
+        });
+    }
+});
+
+
