@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs')
 
 const User = new mongoose.Schema({
+    
     name: {
         type: String,
         require: true,
@@ -15,7 +16,8 @@ const User = new mongoose.Schema({
     password: {
         type: String,
         require: true,
-        //select: false,
+        select: false,
+        minlength: 6,
     },
     observation: {
         type: String,
@@ -34,7 +36,6 @@ User.pre('save', async function() {
     
     
 });
-
 
 //(nome da model a ser criada no db, nome do schema sendo usado);
  mongoose.model('user', User);

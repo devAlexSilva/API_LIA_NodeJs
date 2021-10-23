@@ -36,6 +36,9 @@ app.get("/", (req, res) => {
 
 //passando o app para os controlers, dessa forma não duplica a inicialização da aplicação
 require('./controllers/authUsers')(app);
+require('./controllers/authConfig')(app);
+
+
 
 
 

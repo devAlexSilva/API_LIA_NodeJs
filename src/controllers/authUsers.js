@@ -1,14 +1,17 @@
 //definindo rotas para usuarios
 const express = require('express');
-const mongoose  = require('mongoose');
+const mongoose = require('mongoose');
 require('../models/User');
 
 const User = mongoose.model('user');
 const router = express.Router();
 
 
-//rota para criar usuarios @method POST 
-router.post("/user/add", async (req, res) => {
+const authAcess = require('./middleConfig');
+router.use(authAcess);
+
+//rota para criar usuarios
+router.post("/add", async (req, res) => {
     try {
         await User.create(req.body)
 
@@ -23,7 +26,7 @@ router.post("/user/add", async (req, res) => {
 
 
 //rota para listar todos os usuarios do DB
-router.get("/user", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const data = await User.find();
         return res.status(200).json(data);
@@ -40,7 +43,7 @@ router.get("/user", async (req, res) => {
 
 
 //rota para listar usuarios por id
-router.get("/user/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
         const data = await User.findById(req.params.id);
 
@@ -65,10 +68,10 @@ router.get("/user/:id", async (req, res) => {
 
 /*rota para editar (estudar melhor as diferenças do method put e patch)
 * nesse caso, usando o patch porque é uma atualização parcial */
-router.post("/user/:id/edit", async (req, res) => {
+router.post("/:id/edit", async (req, res) => {
     const { name, observation } = req.body;
     const id = req.params.id;
-    
+
     const data = {
         name,
         observation,
@@ -99,9 +102,9 @@ router.post("/user/:id/edit", async (req, res) => {
 
 
 //rota para excluir um usuario
-router.post("/user/:id/delete", async (req, res) => {
+router.post("/:id/delete", async (req, res) => {
     const id = req.params.id;
-    
+
     try {
         await User.deleteOne({ _id: id })
         return res.status(200).json({ message: "Deletado com sucesso" })
@@ -119,5 +122,6 @@ router.post("/user/:id/delete", async (req, res) => {
 
 
 
+
 //pegando o app que foi passado pra ca e indexando as rotas daqui com o prefixo /auth
-module.exports = (app) => app.use('/auth', router);
+module.exports = (app) => app.use('/user', router);
