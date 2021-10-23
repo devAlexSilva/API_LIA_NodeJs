@@ -8,7 +8,7 @@
 - [x] CRUD
 - [x] rotas
 - [] validações
-- [] autenticação
+- [x] autenticação
 
 
 **CRUD de forms com relaçionamento: _forms pra usuarios N:1_ // _forms pra categorias N:1_**
