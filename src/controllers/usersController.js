@@ -7,7 +7,7 @@ const User = mongoose.model('user');
 const router = express.Router();
 
 
-const authAcess = require('./middleConfig');
+const authAcess = require('./configs/middleConfig');
 router.use(authAcess);
 
 //rota para criar usuarios
@@ -72,10 +72,7 @@ router.post("/:id/edit", async (req, res) => {
     const { name, observation } = req.body;
     const id = req.params.id;
 
-    const data = {
-        name,
-        observation,
-    }
+ 
 
 
     try {

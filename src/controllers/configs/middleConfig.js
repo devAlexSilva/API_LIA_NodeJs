@@ -12,7 +12,8 @@ module.exports = (req, res, next) => {
         if(err) return res.send("token incompativel!!");
 
         //id que foi repassado junto com o token na geração
-        req.useId = decoded.id;
+        //jogando nessa variavel pra usar nas rotas
+        idInToken = decoded.id;
 
         return next();
     });

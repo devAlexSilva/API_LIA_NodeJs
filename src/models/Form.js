@@ -17,12 +17,12 @@ const Form = new mongoose.Schema({
         type: String,
     },
 
-    time: {
+    createdAt: {
         type: Date,
-        default: Date.now
+        timestamps: true,
     },
 
-    ofUser: {
+    idOfUser: {
         type: String, //vai receber o id do usuario logado como referencia para consultas e update/delete
     }
 });

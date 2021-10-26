@@ -12,11 +12,14 @@
 
 
 **CRUD de forms com relaçionamento: _forms pra usuarios N:1_ // _forms pra categorias N:1_**
-- [] CRUD
-- [] rotas
+- [x] CRUD
+- [x] rotas
 - [] validações
-- [] autenticação
-- [] relacionamento
+- [x] autenticação
+- [x] relacionamento
 
 **Criar uma Collection de categorias**
 - [] definir regras e modelagem
+
+
+**Conferir melhorias para segurança e organização**

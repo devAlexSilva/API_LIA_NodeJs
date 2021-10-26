@@ -1,11 +1,10 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-
-
-app.use(express.json())
+ 
+const app = express();
+app.use(express.json());
 
 //liberando a API
 app.use(cors());
@@ -28,15 +27,15 @@ try {
 
 app.get("/", (req, res) => {
     try {
-        res.json({
-            message: "conectado na porta 4000",
-        });
-    } catch (err) { console.error(`verifique o erro -> ${err}`); }
+        res.sendStatus(200);
+    } catch (err) { console.error(`Ops! houve um erro -> ${err}`); }
 })
 
 //passando o app para os controlers, dessa forma não duplica a inicialização da aplicação
-require('./controllers/authUsers')(app);
-require('./controllers/authConfig')(app);
+require('./controllers/formsController')(app);
+require('./controllers/usersController')(app);
+
+require('./controllers/configs/authConfig')(app);
 
 
 

@@ -12,13 +12,12 @@ const jwt = require('jsonwebtoken');
 /*
 configurações de autenticação
 */
-router.post('/auth', async (req, res) => {
+module.exports = (app) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
 
     const user = await User.findOne({ email }).select('+password');
-
-
 
 
     if (!user)
@@ -34,9 +33,9 @@ router.post('/auth', async (req, res) => {
     });
 
 
-    
     res.json({ user, token });
 
 })
 
-module.exports = (app) => app.use('/api', router);
+}
+//module.exports = (app) => app.use('/api', router);
